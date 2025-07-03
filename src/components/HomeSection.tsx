@@ -48,7 +48,7 @@ export default function HomeSection() {
     <section
       id="home"
       className="w-full h-screen flex flex-col justify-center bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: "url('/Home.jpg')" }}
+      style={{ backgroundImage: "url('/home.jpg')" }}
     >
       <div className="pb-50 md:pb-0">
         <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white ml-3">Roberto Marins</h1>
