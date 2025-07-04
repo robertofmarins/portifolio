@@ -3,10 +3,29 @@
 import { useState } from "react";
 import Image from 'next/image';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub, faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
 export default function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+  // Cada ícone agora é o objeto real importado
+         const redeSocial = [
+           {
+             icon: faGithub,
+             link: "https://github.com/robertofmarins"
+           },
+           {
+             icon: faLinkedin,
+             link: "https://www.linkedin.com/in/robertofmarins/"
+           },
+           {
+             icon: faWhatsapp,
+             link: "https://wa.me/+5521990034590"
+           },
+         ]; 
 
   return (
     <>
@@ -36,7 +55,22 @@ export default function Header() {
             />
           </div>
           <h2 className="text-2xl md:text-3xl font-bold">Roberto Marins</h2>
-        </div>
+</div>
+      <div className="flex gap-6 mt-4 justify-center">
+  {redeSocial.map((item, index) => (
+    <a
+      key={index}
+      href={item.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className=" hover:text-orange-500 text-3xl mx-2"
+    >
+      <FontAwesomeIcon icon={item.icon} />
+    </a>
+  ))}
+</div>   
+
+        
         <nav className="mt-8 space-y-4">
           <a href="#home" className="block hover:bg-gray-700 p-2 rounded">Home</a>
           <a href="#sobre" className="block hover:bg-gray-700 p-2 rounded">Sobre</a>
