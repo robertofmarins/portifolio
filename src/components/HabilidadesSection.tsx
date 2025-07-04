@@ -1,7 +1,7 @@
 "use client";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHtml5, faCss3Alt, faJs, faPython } from '@fortawesome/free-brands-svg-icons';
+import { faHtml5, faCss3Alt, faJs, faPython, faGitAlt, faReact, faNode, faDocker } from '@fortawesome/free-brands-svg-icons';
 import React, { useState } from 'react';
 
 // Cada ícone agora é o objeto real importado
@@ -26,6 +26,26 @@ const habilidadesData = [
     title: "Python",
     descricao: "Python é uma linguagem de programação versátil, usada para web, ciência de dados, automações e muito mais.",
   },
+  {
+    icon: faGitAlt,
+    title: "Git",
+    descricao: "Git é um sistema de controle de versão distribuído que permite gerenciar e acompanhar mudanças no código-fonte de forma eficiente e colaborativa.",
+  },
+  {
+    icon: faReact,
+    title: "React",
+    descricao: "Git é um sistema de controle de versão distribuído que permite gerenciar e acompanhar mudanças no código-fonte de forma eficiente e colaborativa.",
+  },
+  {
+    icon: faNode,
+    title: "Node.js",
+    descricao: "Git é um sistema de controle de versão distribuído que permite gerenciar e acompanhar mudanças no código-fonte de forma eficiente e colaborativa.",
+  },
+  {
+    icon: faDocker,
+    title: "Docker",
+    descricao: "Git é um sistema de controle de versão distribuído que permite gerenciar e acompanhar mudanças no código-fonte de forma eficiente e colaborativa.",
+  },
 ];
 
 export default function HabilidadesSection() {
@@ -37,20 +57,20 @@ export default function HabilidadesSection() {
       className="min-h-screen w-full flex flex-col items-center justify-around bg-gray-600 text-white overflow-hidden scroll-mt-14 md:scroll-mt-0"
     >
       <h1 className="text-5xl font-bold mt-3 md:mt-0">Habilidades</h1>
-      <div className="flex flex-wrap justify-center gap-6">
+      <div className="flex flex-wrap justify-center gap-6 px-30">
         {habilidadesData.map(({ icon, title, descricao: desc }) => (
           <div
             key={title}
-            className="flex flex-col justify-center items-center w-28 h-28 transition-colors duration-300 hover:text-amber-400 cursor-pointer"
+            className="flex flex-col justify-center items-center w-28 h-28 transition-colors duration-300 hover:text-orange-500 cursor-pointer"
             onClick={() => setDescricao(desc)}
           >
-            <FontAwesomeIcon icon={icon} className="text-5xl" />
+            <FontAwesomeIcon icon={icon} className="text-7xl" />
             <span className="mt-2 text-xl">{title}</span>
           </div>
         ))}
       </div>
 
-      <div className="bg-gray-900 w-70 h-25 p-3 flex items-center justify-center text-center rounded-lg mt-6">
+      <div className="bg-gray-900 w-100 h-40 p-3 flex items-center justify-center text-center rounded-lg mt-6">
         <p>{descricao}</p>
       </div>
     </section>
