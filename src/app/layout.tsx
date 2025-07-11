@@ -1,5 +1,7 @@
 import './globals.css';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
 
 export const metadata = {
   title: 'Roberto Marins - Desenvolvedor Full Stack',
@@ -13,9 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1 flex flex-col md:ml-64 pt-16 md:pt-0 overflow-auto">
           {children}
-          <footer className="bg-gray-800 text-white text-center py-4">
-            <p>&copy; 2025 Roberto Marins. Todos os direitos reservados.</p>
-          </footer>
+        <Footer />  
         </main>
       </body>
     </html>
