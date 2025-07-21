@@ -87,7 +87,7 @@ export default function HomeSection() {
       {/* Conteúdo Principal */}
       <div className="relative z-10 text-center max-w-5xl mx-auto">
         {/* Badge de Status */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-green-500/20 backdrop-blur-sm border border-green-500/30 rounded-full text-green-400 text-sm font-medium">
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 mt-6 md:mt-0 bg-green-500/20 backdrop-blur-sm border border-green-500/30 rounded-full text-green-400 text-sm font-medium">
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
           Disponível para projetos
           <Sparkles className="w-4 h-4" />

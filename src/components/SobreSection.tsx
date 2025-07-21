@@ -85,7 +85,7 @@ export default function SobreSection() {
           <div className="flex flex-col items-center lg:items-start space-y-8">
             {/* Foto */}
             <div className="relative group">
-              <div className="w-80 h-80 rounded-2xl overflow-hidden border-4 border-purple-500/60 shadow-2xl bg-gradient-to-br from-purple-600/20 to-cyan-600/20 backdrop-blur-sm">
+              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-purple-500/60 shadow-2xl bg-gradient-to-br from-purple-600/20 to-cyan-600/20 backdrop-blur-sm">
                 <Image
                   src="/eu.png"
                   alt="Roberto Marins"
@@ -95,9 +95,7 @@ export default function SobreSection() {
                   priority
                 />
               </div>
-              <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-4 py-2 rounded-xl font-semibold shadow-lg flex items-center gap-2">
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
-                Disponível
+              <div className="absolute bottom-4 right-15 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-3 rounded-xl font-semibold shadow-lg flex items-center gap-2">
               </div>
             </div>
 
