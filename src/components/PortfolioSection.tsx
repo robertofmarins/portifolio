@@ -9,9 +9,9 @@ const projetos = [
     titulo: "TMS Engenharia",
     descricao: "Landing page responsiva moderna com design profissional e otimizada para conversão.",
     imagem: "/tms.png",
-    link: "https://robertofmarins.github.io/siteTMS/",
+    link: "https://tms.robertomarins.com.br/",
     github: "#",
-    tecnologias: ["HTML5", "CSS3", "JavaScript"],
+    tecnologias: ["React", "TypeScript", "Tailwind CSS"],
     status: "Concluído",
     ano: "2024"
   },
