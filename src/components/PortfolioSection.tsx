@@ -17,20 +17,11 @@ const projetos = [
   },
   {
     id: 2,
-    titulo: "Sistema de Cadastro e Login CRUD",
-    descricao: "Sistema completo de autenticação com Next.js que permite cadastro, login, listagem e exclusão de usuários. Utiliza Prisma para modelagem e acesso ao banco de dados PostgreSQL, bcrypt para hash seguro das senhas e JSON Web Tokens (JWT) para autenticação via token. A interface é responsiva e moderna, construída com React e estilizada com Tailwind CSS, garantindo uma ótima experiência para o usuário. O sistema também implementa controle de acesso CORS para segurança e suporta operações CRUD básicas no usuário.",
+    titulo: "Sistema completo de autenticação com cadastro, login, listagem e exclusão de usuários. Inclui hash seguro de senhas, autenticação por token e controle de acesso para segurança. Interface moderna, responsiva e fácil de usar, com operações CRUD básicas para usuários.",
     imagem: "/login.png",
     link: "https://login.robertomarins.com.br",
     github: "#",
-    tecnologias: [
-  "Next.js",
-  "Prisma",
-  "PostgreSQL",
-  "bcryptjs",
-  "jsonwebtoken",
-  "Tailwind CSS",
-  "TypeScript"
-],
+    tecnologias: ["Next.js", "PostgreSQL", "Tailwind CSS", "TypeScript"],
     status: "Concluído",
     ano: "2025"
   },
