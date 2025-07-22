@@ -17,9 +17,10 @@ const projetos = [
   },
   {
     id: 2,
-    titulo: "Sistema completo de autenticação com cadastro, login, listagem e exclusão de usuários. Inclui hash seguro de senhas, autenticação por token e controle de acesso para segurança. Interface moderna, responsiva e fácil de usar, com operações CRUD básicas para usuários.",
+    titulo: "Sistema de Cadastro e Login CRUD",
+    descricao: "Sistema completo de autenticação com cadastro, login, listagem e exclusão de usuários. Inclui hash seguro de senhas, autenticação por token e controle de acesso para segurança. Interface moderna, responsiva e fácil de usar, com operações CRUD básicas para usuários.",
     imagem: "/login.png",
-    link: "https://login.robertomarins.com.br",
+    link: "https://login.robertomarins.com.br/",
     github: "#",
     tecnologias: ["Next.js", "PostgreSQL", "Tailwind CSS", "TypeScript"],
     status: "Concluído",
