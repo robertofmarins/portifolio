@@ -28,8 +28,8 @@ export default function SobreSection() {
   }, []);
 
   const stats = [
-    { icon: <Code2 className="w-6 h-6" />, label: "Anos de Experiência", value: "5+", color: "from-blue-500 to-cyan-500" },
-    { icon: <Rocket className="w-6 h-6" />, label: "Projetos Concluídos", value: "20+", color: "from-purple-500 to-pink-500" },
+    { icon: <Code2 className="w-6 h-6" />, label: "Anos de Experiência", value: "2+", color: "from-blue-500 to-cyan-500" },
+    { icon: <Rocket className="w-6 h-6" />, label: "Projetos Concluídos", value: "3+", color: "from-purple-500 to-pink-500" },
     { icon: <Coffee className="w-6 h-6" />, label: "Cafés Consumidos", value: "∞", color: "from-amber-500 to-orange-500" },
     { icon: <Award className="w-6 h-6" />, label: "Tecnologias Dominadas", value: "10+", color: "from-green-500 to-emerald-500" }
   ];
