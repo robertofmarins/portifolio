@@ -13,18 +13,26 @@ const projetos = [
     github: "#",
     tecnologias: ["React", "TypeScript", "Tailwind CSS"],
     status: "Concluído",
-    ano: "2024"
+    ano: "2025"
   },
   {
     id: 2,
-    titulo: "Sistema CRUD Python",
-    descricao: "Aplicação completa com Python, PostgreSQL e interface moderna para gerenciamento de dados.",
-    imagem: "/projeto2.jpg",
+    titulo: "Sistema de Cadastro e Login CRUD",
+    descricao: "Sistema completo de autenticação com Next.js que permite cadastro, login, listagem e exclusão de usuários. Utiliza Prisma para modelagem e acesso ao banco de dados PostgreSQL, bcrypt para hash seguro das senhas e JSON Web Tokens (JWT) para autenticação via token. A interface é responsiva e moderna, construída com React e estilizada com Tailwind CSS, garantindo uma ótima experiência para o usuário. O sistema também implementa controle de acesso CORS para segurança e suporta operações CRUD básicas no usuário.",
+    imagem: "/login.png",
     link: "#",
     github: "#",
-    tecnologias: ["Python", "PostgreSQL", "Flask"],
-    status: "Em desenvolvimento",
-    ano: "2024"
+    tecnologias: [
+  "Next.js",
+  "Prisma",
+  "PostgreSQL",
+  "bcryptjs",
+  "jsonwebtoken",
+  "Tailwind CSS",
+  "TypeScript"
+],
+    status: "Concluído",
+    ano: "2025"
   },
   {
     id: 3,
