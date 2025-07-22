@@ -1,5 +1,7 @@
 'use client';
 
+
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHtml5,
@@ -11,7 +13,10 @@ import {
   faNode,
   faDocker,
 } from '@fortawesome/free-brands-svg-icons';
-import React, { useState, ReactElement } from 'react';
+import { faDatabase, faCode } from '@fortawesome/free-solid-svg-icons';
+import { faLeaf } from '@fortawesome/free-solid-svg-icons';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 import { Code, Database, Globe, Server, Zap, Star } from 'lucide-react';
 
 const habilidadesData = [
@@ -79,20 +84,54 @@ const habilidadesData = [
     descricao: 'Docker para containerização de aplicações, criação de ambientes isolados e deploy em produção.',
     cor: '#2496ED'
   },
+  {
+  icon: faDatabase, // Ícone para banco de dados (pode usar algo específico se quiser)
+  title: 'PostgreSQL',
+  categoria: 'Banco de Dados',
+  nivel: 80,
+  descricao: 'Banco de dados relacional avançado, usado para armazenar dados estruturados com alta performance e segurança.',
+  cor: '#336791'
+},
+{
+  icon: faLeaf, // Ícone para MongoDB (folha)
+  title: 'MongoDB',
+  categoria: 'Banco de Dados',
+  nivel: 75,
+  descricao: 'Banco de dados NoSQL orientado a documentos, flexível e escalável para aplicações modernas.',
+  cor: '#47A248'
+},
+{
+  icon: faReact, // Pode usar o ícone do React para Next.js, pois não tem um oficial específico
+  title: 'Next.js',
+  categoria: 'Frontend',
+  nivel: 85,
+  descricao: 'Framework React para renderização híbrida (SSG, SSR) que melhora performance e SEO de aplicações web.',
+  cor: '#000000'
+},
+{
+  icon: faCode, // Ícone genérico para linguagens, ou usar um específico de TypeScript se tiver
+  title: 'TypeScript',
+  categoria: 'Frontend',
+  nivel: 80,
+  descricao: 'Superset do JavaScript que adiciona tipagem estática para maior robustez e manutenção do código.',
+  cor: '#3178C6'
+},
 ];
 
-const categorias = ['Todas', 'Frontend', 'Backend', 'Ferramentas', 'DevOps'];
+const categorias = ['Todas', 'Frontend', 'Backend', 'Banco de Dados', 'Ferramentas', 'DevOps'];
 
-const getCategoriaIcon = (categoria: string): ReactElement => {
+const getCategoriaIcon = (categoria: string): React.ReactElement => {
   switch (categoria) {
     case "Frontend":
       return <Globe className="w-4 h-4" />;
     case "Backend":
       return <Server className="w-4 h-4" />;
+    case "Banco de Dados":
+      return <Database className="w-4 h-4" />;  // ícone para banco de dados
     case "Ferramentas":
       return <Code className="w-4 h-4" />;
     case "DevOps":
-      return <Database className="w-4 h-4" />;
+      return <FontAwesomeIcon icon={faCog} className="w-4 h-4" />; // você pode trocar o ícone se quiser
     default:
       return <Star className="w-4 h-4" />;
   }
