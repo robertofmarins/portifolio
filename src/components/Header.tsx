@@ -135,32 +135,34 @@ export default function Header() {
         aria-label="Menu lateral"
       >
         {/* Profile Section */}
-        <div className="flex flex-col items-center space-y-4 mt-6 mb-8">
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-500/60 shadow-xl">
-              <Image
-                src="/eu.png"
-                alt="Roberto Marins"
-                width={96}
-                height={96}
-                className="object-cover"
-                priority
-              />
-            </div>
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-[#23243a] flex items-center justify-center">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-            </div>
-          </div>
-          
-          <div className="text-center">
-            <h2 className="text-xl font-bold tracking-tight mb-1">Roberto Marins</h2>
-            <p className="text-sm text-gray-400">Full Stack Developer</p>
-            <div className="flex items-center justify-center gap-1 mt-2 text-xs text-green-400">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              Disponível para projetos
-            </div>
-          </div>
-        </div>
+<div className="flex flex-col items-center justify-center flex-shrink-0 py-8">
+  <div className="relative">
+    <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-500/60 shadow-xl">
+      <Image
+        src="/eu.png"
+        alt="Roberto Marins"
+        width={96}
+        height={96}
+        className="object-cover w-full h-full"
+        priority
+      />
+    </div>
+
+    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-[#23243a] flex items-center justify-center">
+      <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+    </div>
+  </div>
+
+  <div className="text-center mt-4">
+    <h2 className="text-xl font-bold tracking-tight mb-1">Roberto Marins</h2>
+    <p className="text-sm text-gray-400">Full Stack Developer</p>
+    <div className="flex items-center justify-center gap-1 mt-2 text-xs text-green-400">
+      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+      Disponível para projetos
+    </div>
+  </div>
+</div>
+
 
         {/* Social Links */}
         <div className="flex gap-4 justify-center mb-8">
@@ -180,9 +182,6 @@ export default function Header() {
 
         {/* Navigation */}
         <nav className="flex flex-col gap-2 flex-1">
-          <h3 className="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-4 px-3">
-            Navegação
-          </h3>
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.substring(1);
             return (
@@ -215,9 +214,9 @@ export default function Header() {
           <div className="text-center">
             <p className="text-xs text-gray-500 mb-2">Desenvolvido com</p>
             <div className="flex items-center justify-center gap-1 text-xs text-gray-400">
-              <span>React</span>
-              <span>•</span>
               <span>Next.js</span>
+              <span>•</span>
+              <span>Typescript</span>
               <span>•</span>
               <span>Tailwind</span>
             </div>

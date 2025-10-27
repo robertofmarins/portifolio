@@ -58,7 +58,7 @@ export default function SobreSection() {
   return (
     <section
       id="sobre"
-      className="border-t border-[#35356b]/50 pt-8 min-h-screen bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white px-4 py-20 relative overflow-hidden"
+      className="border-t border-[#35356b]/50 pt-8 min-h-screen bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white py-20 relative overflow-hidden"
     >
       {/* Elementos Decorativos */}
       <div className="absolute inset-0 opacity-20">
@@ -66,7 +66,11 @@ export default function SobreSection() {
         <div className="absolute bottom-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 mx-auto px-6 md:px-10 lg:px-16">
+
+
+
+
         {/* Header da Seção */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
