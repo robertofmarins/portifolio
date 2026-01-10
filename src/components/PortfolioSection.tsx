@@ -10,7 +10,7 @@ const projetos = [
     descricao:
       "Landing page responsiva moderna com design profissional e otimizada para conversão.",
     imagem: "/construção.jpg",
-    link: "https://tms.robertomarins.com.br/",
+    link: "https://site-tms.vercel.app/",
     github: "#",
     tecnologias: ["React", "TypeScript", "Tailwind CSS"],
     status: "Concluído",
