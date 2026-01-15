@@ -104,8 +104,8 @@ export default function ContatosSection() {
                 icon={<Mail className="w-6 h-6" />}
                 title="Email"
                 subtitle="Respondo em até 24h"
-                value="contato@robertomarins.com.br"
-                href="mailto:contato@robertomarins.com.br"
+                value="contato@robertomarins.dev"
+                href="mailto:contato@robertomarins.dev"
                 color="from-blue-500 to-cyan-500"
               />
 

@@ -35,7 +35,7 @@ export default function Footer() {
     },
     {
       icon: <Mail className="w-5 h-5" />,
-      href: "mailto:contato@robertomarins.com.br",
+      href: "mailto:contato@robertomarins.dev",
       label: "Email",
       color: "hover:text-cyan-400",
     },
@@ -165,10 +165,10 @@ export default function Footer() {
                 <div>
                   <p className="text-sm text-gray-400 mb-1">Email</p>
                   <a
-                    href="mailto:contato@robertomarins.com.br"
+                    href="mailto:contato@robertomarins.dev"
                     className="text-gray-300 hover:text-cyan-300 transition-colors break-all"
                   >
-                    contato@robertomarins.com.br
+                    contato@robertomarins.dev
                   </a>
                 </div>
               </div>

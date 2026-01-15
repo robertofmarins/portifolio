@@ -154,7 +154,7 @@ export default function HomeSection() {
             <Linkedin className="w-6 h-6" />
           </a>
           <a
-            href="mailto:contato@robertomarins.com.br"
+            href="mailto:contato@robertomarins.dev"
             className="p-3 bg-[#23243a]/50 backdrop-blur-sm border border-[#38BDF8]/30 rounded-xl text-[#94A3B8] hover:text-white hover:border-[#38BDF8] hover:bg-[#38BDF8]/10 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#38BDF8]"
           >
             <Mail className="w-6 h-6" />
