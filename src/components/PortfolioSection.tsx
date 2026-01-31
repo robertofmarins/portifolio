@@ -22,7 +22,7 @@ const projetos = [
     descricao:
       "Sistema completo de autenticação com cadastro, login, listagem e exclusão de usuários. Inclui hash seguro de senhas, autenticação por token e controle de acesso para segurança. Interface moderna, responsiva e fácil de usar, com operações CRUD básicas para usuários.",
     imagem: "/login.png",
-    link: "https://login.robertomarins.com.br/",
+    link: "https://system-login-lab.vercel.app/",
     github: "#",
     tecnologias: ["Next.js", "PostgreSQL", "Tailwind CSS", "TypeScript"],
     status: "Concluído",
