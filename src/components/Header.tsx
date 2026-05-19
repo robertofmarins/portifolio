@@ -75,7 +75,7 @@ export default function Header() {
     };
   }, []);
 
-  // Detecta scroll para efeito no header mobile
+  // Detecta scroll para efeito no header mobilE
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
