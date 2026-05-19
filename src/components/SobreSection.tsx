@@ -126,15 +126,15 @@ export default function SobreSection() {
           <div className="space-y-8">
             <div className="space-y-6 text-gray-200 text-lg leading-relaxed">
               <p>
-                Olá! Sou <span className="text-cyan-400 font-semibold">Roberto Marins</span>, um desenvolvedor Full Stack apaixonado por tecnologia e inovação. Desde criança, sempre fui fascinado por entender como as coisas funcionam, o que me levou naturalmente ao mundo da programação.
+                Olá! Sou <span className="text-cyan-400 font-semibold">Roberto Marins</span>, desenvolvedor Full Stack. Trago uma bagagem sólida de mais de <span className="text-purple-400 font-semibold">15 anos de experiência profissional</span> em posições de liderança e alta responsabilidade. Essa trajetória consolidou minha maturidade corporativa, resiliência, habilidades de comunicação e capacidade analítica focada em solucionar problemas de negócio complexos.
               </p>
               
               <p>
-                Minha jornada começou de forma autodidata, montando computadores e criando meus primeiros sites. Com o tempo, me aprofundei em <span className="text-purple-400 font-semibold">desenvolvimento web moderno</span>, especializando-me em tecnologias como <span className="text-cyan-400 font-semibold">React</span>, <span className="text-cyan-400 font-semibold">Node.js</span>, <span className="text-cyan-400 font-semibold">Python</span> e <span className="text-cyan-400 font-semibold">JavaScript</span>.
+                Minha transição para a tecnologia foi um passo natural, unindo essa experiência de gestão com a minha paixão por programação, que começou na juventude de forma autodidata. Hoje, me especializo no ecossistema <span className="text-cyan-400 font-semibold">React (Next.js)</span>, <span className="text-cyan-400 font-semibold">Node.js</span>, <span className="text-cyan-400 font-semibold">TypeScript</span> e bancos de dados relacionais como <span className="text-cyan-400 font-semibold">PostgreSQL</span>.
               </p>
               
               <p>
-                Acredito no poder da tecnologia para transformar ideias em soluções reais que impactam positivamente a vida das pessoas. Cada projeto é uma oportunidade de criar algo único, funcional e visualmente impressionante.
+                Acredito no poder da tecnologia para transformar ideias em soluções escaláveis de alto valor. Meu diferencial está em alinhar a engenharia de software com os objetivos de negócios do cliente, entregando sistemas robustos, performáticos e focados na melhor experiência de uso.
               </p>
             </div>
 
