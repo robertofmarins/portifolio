@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -44,10 +44,38 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
 
+  const isClickScrolling = useRef(false);
+  const clickScrollTimeout = useRef<NodeJS.Timeout | null>(null);
+
   // Fecha sidebar ao clicar em link ou overlay
   const closeSidebar = () => setSidebarOpen(false);
 
-  // Detecta scroll para efeito no header mobile
+  // Manipula o clique em links de navegação para evitar o bug de piscada no scrollspy
+  const handleNavLinkClick = (section: string) => {
+    setActiveSection(section);
+    isClickScrolling.current = true;
+
+    if (clickScrollTimeout.current) {
+      clearTimeout(clickScrollTimeout.current);
+    }
+
+    clickScrollTimeout.current = setTimeout(() => {
+      isClickScrolling.current = false;
+    }, 800);
+
+    closeSidebar();
+  };
+
+  // Limpa o timeout ao desmontar
+  useEffect(() => {
+    return () => {
+      if (clickScrollTimeout.current) {
+        clearTimeout(clickScrollTimeout.current);
+      }
+    };
+  }, []);
+
+  // Detecta scroll para efeito no header mobilE
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -59,6 +87,8 @@ export default function Header() {
   // Detecta seção ativa
   useEffect(() => {
     const handleScroll = () => {
+      if (isClickScrolling.current) return;
+
       const sections = navLinks.map(link => link.href.substring(1));
       const scrollPosition = window.scrollY + 100;
 
@@ -188,12 +218,12 @@ export default function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-purple-400 ${
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
                   isActive
-                    ? 'bg-gradient-to-r from-purple-600/30 to-indigo-600/20 text-purple-300 border border-purple-500/30'
-                    : 'text-gray-300 hover:bg-purple-700/20 hover:text-purple-300 hover:translate-x-1'
+                    ? 'bg-gradient-to-r from-purple-600/30 to-indigo-600/20 text-purple-300 border-purple-500/30'
+                    : 'text-gray-300 hover:bg-purple-700/20 hover:text-purple-300 hover:translate-x-1 border-transparent'
                 }`}
-                onClick={closeSidebar}
+                onClick={() => handleNavLinkClick(link.href.substring(1))}
               >
                 <span className={`transition-colors duration-200 ${
                   isActive ? 'text-purple-400' : 'text-gray-400'
