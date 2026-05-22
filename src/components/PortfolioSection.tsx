@@ -10,19 +10,19 @@ const projetos = [
     titulo: "ChamaKi — ERP & Vendas Multi-Tenant",
     descricao:
       "Plataforma SaaS multi-tenant completa para gestão de estoques, catalogação de produtos e vendas em tempo real. Implementa Row Level Security (RLS) para total isolamento de dados de inquilinos e integração completa com gateway de pagamento Asaas.",
-    imagem: "/chamaki.png",
+    imagem: "/chamaki.webp",
     link: "https://www.chamaki.app",
     github: "#",
     tecnologias: ["Next.js", "TypeScript", "Supabase", "Drizzle ORM", "Tailwind CSS"],
     status: "Concluído",
-    ano: "2025",
+    ano: "2026",
   },
   {
     id: 1,
     titulo: "TMS Engenharia",
     descricao:
       "Landing page responsiva moderna com design profissional e otimizada para conversão.",
-    imagem: "/tms.png",
+    imagem: "/tms.webp",
     link: "https://site-tms.vercel.app/",
     github: "#",
     tecnologias: ["React", "TypeScript", "Tailwind CSS"],
@@ -30,35 +30,11 @@ const projetos = [
     ano: "2025",
   },
   {
-    id: 2,
-    titulo: "Sistema de Cadastro e Login CRUD",
-    descricao:
-      "Sistema completo de autenticação com cadastro, login, listagem e exclusão de usuários. Inclui hash seguro de senhas, autenticação por token e controle de acesso para segurança. Interface moderna, responsiva e fácil de usar, com operações CRUD básicas para usuários.",
-    imagem: "/login.png",
-    link: "https://system-login-lab.vercel.app/",
-    github: "#",
-    tecnologias: ["Next.js", "PostgreSQL", "Tailwind CSS", "TypeScript"],
-    status: "Concluído",
-    ano: "2025",
-  },
-  {
-    id: 3,
-    titulo: "Portfólio Interativo",
-    descricao:
-      "Portfólio pessoal com animações avançadas, tema dark/light e performance otimizada.",
-    imagem: "/portfolio.png",
-    link: "https://chamai.vercel.app",
-    github: "#",
-    tecnologias: ["React", "Next.js", "Tailwind"],
-    status: "Em desenvolvimento",
-    ano: "2024",
-  },
-  {
     id: 4,
     titulo: "Paraiso Design — Loja de Móveis",
     descricao:
       "Website profissional desenvolvido para a loja de móveis Paraiso Design. Apresenta o catálogo completo de produtos com layout moderno, responsivo e otimizado para desempenho e SEO. Desenvolvido com Next.js, TypeScript e Tailwind CSS, garantindo alta performance e fácil manutenção.",
-    imagem: "/paraiso-design.png",
+    imagem: "/paraisodesign.webp",
     link: "https://www.paraisodesign.com.br",
     github: "#",
     tecnologias: ["Next.js", "TypeScript", "Tailwind CSS"],
@@ -71,7 +47,7 @@ export default function PortfolioSection() {
   return (
     <section
       id="portfolio"
-      className="border-t border-[#35356b]/50 pt-8 min-h-screen w-full bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white px-4 py-10 flex flex-col items-center relative overflow-hidden"
+      className="border-t border-[#35356b]/50 bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white py-16 md:py-24 relative overflow-hidden"
     >
       {/* Elementos Decorativos */}
       <div className="absolute inset-0 opacity-20">
@@ -79,22 +55,22 @@ export default function PortfolioSection() {
         <div className="absolute bottom-40 left-20 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl" />
       </div>
 
-      <div className="relative z-10 max-w-7xl w-full">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-8">
         {/* Header da Seção */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent">
               Meus Projetos
             </span>
-          </h1>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          </h2>
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Uma seleção dos meus trabalhos mais recentes, desde landing pages
-            até aplicações full-stack complexas
+            até aplicações verídicas e completas
           </p>
         </div>
 
         {/* Grid de Projetos */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projetos.map((projeto, index) => (
             <motion.div
               key={projeto.id}
@@ -102,7 +78,12 @@ export default function PortfolioSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group flex flex-col justify-between bg-gradient-to-br from-[#23243a]/65 to-[#1a1b2e]/65 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden border border-slate-800/80 hover:border-cyan-500/30 transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_0_30px_rgba(6,182,212,0.06)]"
+              whileHover={{ 
+                y: -6, 
+                scale: 1.015,
+                transition: { type: "spring", stiffness: 400, damping: 25 }
+              }}
+              className="group flex flex-col justify-between bg-gradient-to-br from-[#202136] to-[#151627] rounded-2xl shadow-xl overflow-hidden border border-slate-800/80 hover:border-cyan-500/30 transition-[border-color,box-shadow] duration-300 hover:shadow-[0_10px_30px_rgba(6,182,212,0.08)]"
             >
               {/* Cabeçalho */}
               <div className="relative h-12 flex justify-between items-center px-4 border-b border-slate-800/40">
@@ -123,13 +104,13 @@ export default function PortfolioSection() {
                 </span>
               </div>
 
-              {/* Imagem fixa */}
-              <div className="relative w-full h-[180px] flex-shrink-0 overflow-hidden bg-black/20">
+              {/* Imagem proporcional 16:9 sem cortes */}
+              <div className="relative w-full aspect-video flex-shrink-0 overflow-hidden bg-black/20">
                 <Image
                   src={projeto.imagem}
                   alt={projeto.titulo}
                   fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-[#181824]/20 to-transparent" />

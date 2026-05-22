@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,7 +10,7 @@ import {
   faLinkedin,
   faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
-import { Menu, X, Home, User, Briefcase, Code, Mail } from "lucide-react";
+import { Menu, X, Home, User, Briefcase, Code, Mail, FileText } from "lucide-react";
 
 const redesSociais = [
   {
@@ -37,9 +39,13 @@ const navLinks = [
   { href: "#portfolio", label: "Portfólio", icon: <Briefcase className="w-4 h-4" /> },
   { href: "#habilidades", label: "Habilidades", icon: <Code className="w-4 h-4" /> },
   { href: "#contatos", label: "Contatos", icon: <Mail className="w-4 h-4" /> },
+  { href: "/curriculo", label: "Currículo", icon: <FileText className="w-4 h-4" />, isExternal: true },
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+  const isCurriculoPage = pathname === "/curriculo";
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [scrolled, setScrolled] = useState(false);
@@ -113,7 +119,7 @@ export default function Header() {
   return (
     <>
       {/* Header Mobile */}
-      <header className={`fixed top-0 left-0 right-0 flex items-center justify-between text-white px-5 py-4 shadow-lg md:hidden z-50 transition-all duration-300 ${
+      <header className={`fixed top-0 left-0 right-0 flex items-center justify-between text-white px-5 py-4 shadow-lg md:hidden z-50 transition-all duration-300 print:hidden ${
         scrolled 
           ? 'bg-[#23243a]/95 backdrop-blur-md border-b border-purple-500/20' 
           : 'bg-[#23243a]/80 backdrop-blur-sm'
@@ -121,7 +127,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-purple-500/60">
             <Image
-              src="/eu.png"
+              src="/eu.webp"
               alt="Roberto Marins"
               width={32}
               height={32}
@@ -157,7 +163,7 @@ export default function Header() {
         id="sidebar"
         className={`
           fixed inset-y-0 left-0 w-72 bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white p-6 flex flex-col shadow-2xl z-50 border-r border-purple-500/20
-          transform transition-transform duration-300 ease-in-out
+          transform transition-transform duration-300 ease-in-out print:hidden
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0 md:block
         `}
@@ -169,7 +175,7 @@ export default function Header() {
   <div className="relative">
     <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-purple-500/60 shadow-xl">
       <Image
-        src="/eu.png"
+        src="/eu.webp"
         alt="Roberto Marins"
         width={96}
         height={96}
@@ -213,17 +219,32 @@ export default function Header() {
         {/* Navigation */}
         <nav className="flex flex-col gap-2 flex-1">
           {navLinks.map((link) => {
-            const isActive = activeSection === link.href.substring(1);
+            const isExternal = 'isExternal' in link && link.isExternal;
+            const isActive = isExternal 
+              ? (link.href === "/curriculo" && isCurriculoPage)
+              : (!isCurriculoPage && activeSection === link.href.substring(1));
+            
+            // Se estiver na página do currículo, redireciona links internos de volta para a homepage com hash
+            const computedHref = link.href.startsWith("#") && isCurriculoPage 
+              ? `/${link.href}` 
+              : link.href;
+
             return (
-              <a
+              <Link
                 key={link.href}
-                href={link.href}
+                href={computedHref}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 border focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
                   isActive
                     ? 'bg-gradient-to-r from-purple-600/30 to-indigo-600/20 text-purple-300 border-purple-500/30'
                     : 'text-gray-300 hover:bg-purple-700/20 hover:text-purple-300 hover:translate-x-1 border-transparent'
                 }`}
-                onClick={() => handleNavLinkClick(link.href.substring(1))}
+                onClick={() => {
+                  if (isCurriculoPage) {
+                    closeSidebar();
+                  } else if (!isExternal) {
+                    handleNavLinkClick(link.href.substring(1));
+                  }
+                }}
               >
                 <span className={`transition-colors duration-200 ${
                   isActive ? 'text-purple-400' : 'text-gray-400'
@@ -234,7 +255,7 @@ export default function Header() {
                 {isActive && (
                   <div className="ml-auto w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
                 )}
-              </a>
+              </Link>
             );
           })}
         </nav>

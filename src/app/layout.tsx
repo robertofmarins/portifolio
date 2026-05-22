@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             min-h-screen 
             pt-16 md:pt-0 
             md:ml-[18rem]
+            print:ml-0 print:pt-0
             overflow-hidden">
           {children}
         </main>

@@ -65,7 +65,7 @@ export default function ContatosSection() {
   return (
     <section
       id="contatos"
-      className="border-t border-[#35356b]/50 pt-8 min-h-screen bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white px-4 relative overflow-hidden"
+      className="border-t border-[#35356b]/50 bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white py-16 md:py-24 relative overflow-hidden"
     >
       {/* Elementos Decorativos */}
       <div className="absolute inset-0 opacity-20">
@@ -73,15 +73,15 @@ export default function ContatosSection() {
         <div className="absolute bottom-40 right-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-8">
         {/* Header da Seção */}
         <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               Vamos Conversar
             </span>
-          </h1>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          </h2>
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Tem um projeto em mente? Quer trocar uma ideia? Estou sempre aberto
             para novas oportunidades e parcerias!
           </p>
@@ -186,6 +186,16 @@ export default function ContatosSection() {
                 name="mensagem"
                 placeholder="Conte-me sobre seu projeto, ideia ou como posso te ajudar..."
                 required
+              />
+            </div>
+
+            {/* Honeypot field para capturar bots de spam */}
+            <div className="hidden" aria-hidden="true">
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
               />
             </div>
 
