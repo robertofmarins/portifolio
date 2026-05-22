@@ -58,7 +58,7 @@ export default function SobreSection() {
   return (
     <section
       id="sobre"
-      className="border-t border-[#35356b]/50 pt-8 min-h-screen bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white py-20 relative overflow-hidden"
+      className="border-t border-[#35356b]/50 bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] text-white py-16 md:py-24 relative overflow-hidden"
     >
       {/* Elementos Decorativos */}
       <div className="absolute inset-0 opacity-20">
@@ -66,40 +66,42 @@ export default function SobreSection() {
         <div className="absolute bottom-40 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
 
-      <div className="relative z-10 mx-auto px-6 md:px-10 lg:px-16">
-
-
-
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-8">
 
         {/* Header da Seção */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
             <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Sobre Mim
             </span>
-          </h1>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          </h2>
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Desenvolvedor Full Stack apaixonado por criar experiências digitais que fazem a diferença
           </p>
         </div>
 
         {/* Seção Principal */}
-        <div className="grid grid-cols-1 lg:grid-cols-[40%_60%] gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-8 lg:gap-12 mb-16 items-center">
           {/* Foto e Informações Básicas */}
-          <div className="flex flex-col items-center lg:items-start space-y-8">
-            {/* Foto */}
-            <div className="relative group">
-              <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-purple-500/60 shadow-2xl bg-gradient-to-br from-purple-600/20 to-cyan-600/20 backdrop-blur-sm">
+          <div className="flex flex-col items-center space-y-8">
+            {/* Foto com Moldura Moderna */}
+            <div className="relative group w-56 h-56 sm:w-64 sm:h-64 lg:w-72 lg:h-72">
+              {/* Moldura Traseira */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-purple-600 to-cyan-500 rounded-3xl transform -rotate-6 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 opacity-60 blur-[2px]" />
+              
+              {/* Moldura Frontal/Borda */}
+              <div className="absolute inset-0 rounded-3xl border-2 border-purple-400/40 transform rotate-3 group-hover:rotate-0 transition-all duration-500 pointer-events-none z-10" />
+
+              {/* Imagem */}
+              <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-purple-600/20 to-cyan-600/20 backdrop-blur-sm transform transition-all duration-500 group-hover:scale-[1.02] z-0">
                 <Image
-                  src="/eu.png"
+                  src="/eu.webp"
                   alt="Roberto Marins"
-                  width={320}
-                  height={320}
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-w-768px) 224px, (max-w-1024px) 256px, 288px"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   priority
                 />
-              </div>
-              <div className="absolute bottom-4 right-15 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-3 rounded-xl font-semibold shadow-lg flex items-center gap-2">
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { 
   ChevronDown, 
   Github, 
@@ -9,7 +10,8 @@ import {
   MapPin,
   ExternalLink,
   Code2,
-  Sparkles
+  Sparkles,
+  FileText
 } from "lucide-react";
 
 const messages = [
@@ -64,7 +66,7 @@ export default function HomeSection() {
     <section
       id="home"
       className="relative w-full min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: "url('/home.jpg')" }}
+      style={{ backgroundImage: "url('/home.webp')" }}
     >
       {/* Background Overlay Melhorado */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0F172A]/95 via-[#1E293B]/85 to-[#0F172A]/95" />
@@ -133,6 +135,15 @@ export default function HomeSection() {
             Ver projetos
             <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
+
+          <Link
+            href="/curriculo"
+            className="group inline-flex items-center gap-2 bg-[#23243a]/50 backdrop-blur-sm border border-purple-500/30 text-[#94A3B8] font-bold px-8 py-4 rounded-xl hover:bg-purple-500/10 hover:border-purple-500 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-[#0F172A]"
+          >
+            <FileText className="w-5 h-5" />
+            Currículo PDF
+            <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
         {/* Links Sociais */}

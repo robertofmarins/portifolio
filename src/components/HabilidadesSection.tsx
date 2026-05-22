@@ -18,6 +18,7 @@ import { faLeaf } from '@fortawesome/free-solid-svg-icons';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import { Code, Database, Globe, Server, Zap, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const habilidadesData = [
   {
@@ -138,7 +139,7 @@ const getCategoriaIcon = (categoria: string): React.ReactElement => {
 };
 
 export default function HabilidadesSection() {
-  const [descricao, setDescricao] = useState('Clique em uma habilidade para ver detalhes e nível de proficiência.');
+  const [descricao, setDescricao] = useState('Passe o mouse (ou toque) em uma habilidade para ver detalhes e nível de proficiência.');
   const [selecionada, setSelecionada] = useState<string | null>(null);
   const [categoriaAtiva, setCategoriaAtiva] = useState('Todas');
 
@@ -149,7 +150,7 @@ export default function HabilidadesSection() {
   return (
     <section
       id="habilidades"
-      className="border-t border-[#35356b]/50 pt-8 min-h-screen bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] px-4 py-20 flex flex-col items-center justify-center relative"
+      className="border-t border-[#35356b]/50 bg-gradient-to-br from-[#181824] via-[#23243a] to-[#181824] py-16 md:py-24 relative overflow-hidden"
     >
       {/* Elementos Decorativos */}
       <div className="absolute inset-0 opacity-20">
@@ -157,16 +158,16 @@ export default function HabilidadesSection() {
         <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       </div>
       
-      <div className="relative z-10 max-w-7xl w-full">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-8">
         
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
             <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Habilidades
             </span>
-          </h1>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          </h2>
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
             Tecnologias e ferramentas que domino para criar soluções completas e eficientes
           </p>
         </div>
@@ -192,16 +193,30 @@ export default function HabilidadesSection() {
         {/* Grid de Habilidades */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 md:gap-8 mb-12">
           {habilidadesFiltradas.map((habilidade) => (
-            <button
+            <motion.button
               key={habilidade.title}
+              onMouseEnter={() => {
+                setDescricao(habilidade.descricao);
+                setSelecionada(habilidade.title);
+              }}
               onClick={() => {
                 setDescricao(habilidade.descricao);
                 setSelecionada(habilidade.title);
               }}
-              className={`group flex flex-col items-center justify-center space-y-4 rounded-2xl py-8 px-4 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400 relative overflow-hidden ${
+              initial={{ y: 0, scale: 1 }}
+              whileHover={{ 
+                y: -6,
+                scale: 1.02,
+                transition: { type: "spring", stiffness: 400, damping: 25 }
+              }}
+              animate={{
+                y: selecionada === habilidade.title ? -6 : 0,
+                scale: selecionada === habilidade.title ? 1.02 : 1
+              }}
+              className={`group flex flex-col items-center justify-center space-y-4 rounded-2xl h-44 sm:h-48 md:h-52 px-4 focus:outline-none focus:ring-2 focus:ring-purple-400 relative overflow-hidden transition-[background-color,border-color,color,box-shadow] duration-300 ${
                 selecionada === habilidade.title
-                  ? 'bg-gradient-to-br from-purple-700/40 to-indigo-700/30 shadow-xl scale-105 text-purple-300 border border-purple-400/50'
-                  : 'bg-[#23243a]/70 hover:bg-purple-800/20 hover:scale-105 text-gray-300 hover:text-purple-300 border border-transparent hover:border-purple-500/30'
+                  ? 'bg-gradient-to-br from-purple-700/40 to-indigo-700/30 shadow-xl text-purple-300 border border-purple-400/50'
+                  : 'bg-[#23243a]/70 hover:bg-purple-800/20 text-gray-300 hover:text-purple-300 border border-transparent hover:border-purple-500/30'
               }`}
               aria-label={`Mostrar descrição de ${habilidade.title}`}
             >
@@ -243,7 +258,7 @@ export default function HabilidadesSection() {
                   {habilidade.nivel}%
                 </div>
               )}
-            </button>
+            </motion.button>
           ))}
         </div>
 

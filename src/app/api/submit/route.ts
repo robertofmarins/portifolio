@@ -20,8 +20,17 @@ export async function POST(request: NextRequest) {
     // Aguarda o corpo da requisição ser convertido para JSON
     const data = await request.json();
 
-    // Desestrutura os dados recebidos no corpo da requisição
-    const { nome, email, telefone, mensagem } = data;
+    // Desestrutura os dados recebidos no corpo da requisição, incluindo o honeypot
+    const { nome, email, telefone, mensagem, website } = data;
+
+    // Proteção anti-spam Honeypot: se o campo invisível estiver preenchido, é um bot
+    if (website) {
+      console.warn("Spam detectado e bloqueado via Honeypot.");
+      return NextResponse.json(
+        { message: "Dados enviados com sucesso!" }, // Simula sucesso para despistar o bot
+        { status: 200 }
+      );
+    }
 
     // Valida se os campos obrigatórios estão presentes (nome, email, mensagem)
     if (!nome || !email || !mensagem) {
