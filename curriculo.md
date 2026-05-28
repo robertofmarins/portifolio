@@ -26,6 +26,16 @@ Estudante de Tecnologia em Desenvolvimento Full Stack com sólida experiência p
 * **Resiliência & APIs:** Integração de gateways de pagamento (Asaas), APIs de mapas/geolocalização e ferramentas de telemetria (**Sentry**) e controle de tráfego (**Upstash Redis**).
 * **Deploy & CI/CD:** Otimização de performance com redução média de **25% no tempo de carregamento** das páginas, versionamento com **Git/GitHub** e deploy contínuo via **Vercel**.
 
+---
+
+## Projetos Relevantes
+* **ChamaKi (SaaS ERP & Vendas)** | [chamaki.app](https://www.chamaki.app): Plataforma multi-tenant com **Next.js, Supabase, Drizzle ORM, Sentry e Redis**. Possui geolocalização e limites de entrega desenhados no mapa (Google Maps / Turf.js), emissão de relatórios in PDF/Excel e controle de estoque.
+* **Paraiso Design (Loja de Móveis)** | [paraisodesign.com.br](https://www.paraisodesign.com.br): Catálogo profissional responsivo em **Next.js e TypeScript**, otimizado para alta performance e indexação SEO.
+
+---
+
+## Histórico Profissional Anterior
+
 ### **Motorista | Uber (Autônomo)** | *2018 - Atual*
 * Atuação autônoma com foco em organização de rotina, gestão de tempo, inteligência emocional e comunicação com clientes.
 
@@ -42,12 +52,6 @@ Estudante de Tecnologia em Desenvolvimento Full Stack com sólida experiência p
 
 ## Formação Acadêmica
 * **Tecnólogo em Desenvolvimento Full Stack** — *Estácio* (Conclusão prevista: Março de 2027)
-
----
-
-## Projetos Relevantes
-* **ChamaKi (SaaS ERP & Vendas)** | [chamaki.app](https://www.chamaki.app): Plataforma multi-tenant com **Next.js, Supabase, Drizzle ORM, Sentry e Redis**. Possui geolocalização e limites de entrega desenhados no mapa (Google Maps / Turf.js), emissão de relatórios em PDF/Excel e controle de estoque.
-* **Paraiso Design (Loja de Móveis)** | [paraisodesign.com.br](https://www.paraisodesign.com.br): Catálogo profissional responsivo em **Next.js e TypeScript**, otimizado para alta performance e indexação SEO.
 
 ---
 

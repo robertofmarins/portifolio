@@ -239,9 +239,11 @@ export default function Header() {
                     : 'text-gray-300 hover:bg-purple-700/20 hover:text-purple-300 hover:translate-x-1 border-transparent'
                 }`}
                 onClick={() => {
-                  if (isCurriculoPage) {
+                  if (isExternal) {
                     closeSidebar();
-                  } else if (!isExternal) {
+                  } else if (isCurriculoPage) {
+                    closeSidebar();
+                  } else {
                     handleNavLinkClick(link.href.substring(1));
                   }
                 }}
