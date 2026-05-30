@@ -6,6 +6,26 @@ export const runtime = 'edge';
 // Disable static rendering cache so that requests dynamically query GitHub APIs
 export const revalidate = 0;
 
+async function fetchYearlyContributions(login: string, year: number): Promise<number> {
+  try {
+    const res = await fetch(`https://github.com/users/${login}/contributions?from=${year}-01-01&to=${year}-12-31`, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      }
+    });
+    if (!res.ok) return 0;
+    const text = await res.text();
+    const match = text.match(/([\d,]+)\s+contributions/);
+    if (match) {
+      return parseInt(match[1].replace(/,/g, ''), 10);
+    }
+    return 0;
+  } catch (err) {
+    console.error(`Error fetching contributions for ${year}:`, err);
+    return 0;
+  }
+}
+
 export async function GET(request: NextRequest) {
   try {
     const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
@@ -22,6 +42,15 @@ export async function GET(request: NextRequest) {
       repos: 0,
       hasToken: false,
     };
+
+    // Parallel fetch contributions from the public profile scraper to bypass organization token limits
+    const [c2023, c2024, c2025, c2026] = await Promise.all([
+      fetchYearlyContributions(login, 2023),
+      fetchYearlyContributions(login, 2024),
+      fetchYearlyContributions(login, 2025),
+      fetchYearlyContributions(login, 2026)
+    ]);
+    stats.contributions = c2023 + c2024 + c2025 + c2026;
 
     if (token) {
       try {
@@ -43,26 +72,6 @@ export async function GET(request: NextRequest) {
               }
               pullRequests {
                 totalCount
-              }
-              y2023: contributionsCollection(from: "2023-01-01T00:00:00Z", to: "2023-12-31T23:59:59Z") {
-                contributionCalendar {
-                  totalContributions
-                }
-              }
-              y2024: contributionsCollection(from: "2024-01-01T00:00:00Z", to: "2024-12-31T23:59:59Z") {
-                contributionCalendar {
-                  totalContributions
-                }
-              }
-              y2025: contributionsCollection(from: "2025-01-01T00:00:00Z", to: "2025-12-31T23:59:59Z") {
-                contributionCalendar {
-                  totalContributions
-                }
-              }
-              y2026: contributionsCollection(from: "2026-01-01T00:00:00Z", to: "2026-12-31T23:59:59Z") {
-                contributionCalendar {
-                  totalContributions
-                }
               }
             }
           }
@@ -93,15 +102,6 @@ export async function GET(request: NextRequest) {
 
           // Calculate PRs
           stats.prs = user.pullRequests?.totalCount || 0;
-
-          // Calculate total contributions (commits + issues + PRs + reviews) across all active years
-          const totalContributions = 
-            (user.y2023?.contributionCalendar?.totalContributions || 0) +
-            (user.y2024?.contributionCalendar?.totalContributions || 0) +
-            (user.y2025?.contributionCalendar?.totalContributions || 0) +
-            (user.y2026?.contributionCalendar?.totalContributions || 0);
-
-          stats.contributions = totalContributions;
           stats.hasToken = true;
         }
       } catch (err) {
@@ -127,7 +127,6 @@ export async function GET(request: NextRequest) {
           stats.avatarUrl = user.avatar_url || stats.avatarUrl;
           stats.followers = user.followers || 0;
           stats.repos = user.public_repos || 0;
-          stats.contributions = 2107; // Hard fallback representing all contributions
         }
 
         if (reposRes.ok) {
@@ -189,79 +188,68 @@ export async function GET(request: NextRequest) {
             </span>
           </div>
 
-          {/* Right Panel: Grid Stats */}
+          {/* Right Panel: Clean list-based stats to completely prevent text truncation */}
           <div
             style={{
               display: 'flex',
               flexDirection: 'column',
               flexGrow: 1,
-              justifyContent: 'center',
+              height: '100%',
+              justifyContent: 'space-between',
+              padding: '6px 0',
+              boxSizing: 'border-box',
             }}
           >
-            {/* Row 1 */}
-            <div style={{ display: 'flex', width: '100%', marginBottom: '16px' }}>
-              {/* Stat 1: Stars */}
-              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                <div style={{ display: 'flex', marginRight: '10px' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#a78bfa" stroke="#a78bfa" strokeWidth="1.5">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  </svg>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estrelas</span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.stars}</span>
-                </div>
+            {/* Stat 1: Contributions */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: 'flex', marginRight: '10px', width: '20px', justifyContent: 'center' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5">
+                  <path d="M12 20h9" />
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
               </div>
-
-              {/* Stat 2: Contributions */}
-              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                <div style={{ display: 'flex', marginRight: '10px' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5">
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-                  </svg>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Contribuições</span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.contributions}</span>
-                </div>
-              </div>
+              <span style={{ fontSize: '13px', color: '#9ca3af', width: '120px' }}>Contribuições</span>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#ffffff' }}>{stats.contributions}</span>
             </div>
 
-            {/* Row 2 */}
-            <div style={{ display: 'flex', width: '100%' }}>
-              {/* Stat 3: PRs */}
-              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                <div style={{ display: 'flex', marginRight: '10px' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="18" cy="18" r="3" />
-                    <circle cx="6" cy="6" r="3" />
-                    <circle cx="6" cy="18" r="3" />
-                    <path d="M18 15V9a4 4 0 0 0-4-4H9" />
-                    <line x1="6" y1="9" x2="6" y2="15" />
-                  </svg>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pull Requests</span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.prs}</span>
-                </div>
+            {/* Stat 2: Stars */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: 'flex', marginRight: '10px', width: '20px', justifyContent: 'center' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#a78bfa" stroke="#a78bfa" strokeWidth="1.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
               </div>
+              <span style={{ fontSize: '13px', color: '#9ca3af', width: '120px' }}>Estrelas</span>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#ffffff' }}>{stats.stars}</span>
+            </div>
 
-              {/* Stat 4: Followers */}
-              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                <div style={{ display: 'flex', marginRight: '10px' }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                    <circle cx="9" cy="7" r="4" />
-                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                  </svg>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Seguidores</span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.followers}</span>
-                </div>
+            {/* Stat 3: PRs */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: 'flex', marginRight: '10px', width: '20px', justifyContent: 'center' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="18" cy="18" r="3" />
+                  <circle cx="6" cy="6" r="3" />
+                  <circle cx="6" cy="18" r="3" />
+                  <path d="M18 15V9a4 4 0 0 0-4-4H9" />
+                  <line x1="6" y1="9" x2="6" y2="15" />
+                </svg>
               </div>
+              <span style={{ fontSize: '13px', color: '#9ca3af', width: '120px' }}>Pull Requests</span>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#ffffff' }}>{stats.prs}</span>
+            </div>
+
+            {/* Stat 4: Followers */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: 'flex', marginRight: '10px', width: '20px', justifyContent: 'center' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <span style={{ fontSize: '13px', color: '#9ca3af', width: '120px' }}>Seguidores</span>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#ffffff' }}>{stats.followers}</span>
             </div>
           </div>
         </div>
