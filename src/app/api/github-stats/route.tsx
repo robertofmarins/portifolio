@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Generate dynamic card as PNG image response
+    // Generate dynamic card as PNG image response fitting standard 495x195 dimensions
     return new ImageResponse(
       (
         <div
@@ -130,9 +130,9 @@ export async function GET(request: NextRequest) {
             background: 'radial-gradient(circle at center, #130f26 0%, #07050f 100%)',
             fontFamily: 'sans-serif',
             color: '#f3f4f6',
-            padding: '24px',
-            borderRadius: '16px',
-            border: '2px solid #6d28d9',
+            padding: '20px',
+            borderRadius: '12px',
+            border: '2.5px solid #6d28d9',
             boxSizing: 'border-box',
           }}
         >
@@ -142,10 +142,10 @@ export async function GET(request: NextRequest) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              width: '180px',
+              width: '140px',
               borderRight: '1px solid rgba(109, 40, 217, 0.3)',
-              paddingRight: '20px',
-              marginRight: '20px',
+              paddingRight: '16px',
+              marginRight: '16px',
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -153,22 +153,22 @@ export async function GET(request: NextRequest) {
               src={stats.avatarUrl}
               alt="Avatar"
               style={{
-                width: '80px',
-                height: '80px',
-                borderRadius: '40px',
+                width: '68px',
+                height: '68px',
+                borderRadius: '34px',
                 border: '2px solid #ec4899',
-                marginBottom: '12px',
+                marginBottom: '10px',
               }}
             />
-            <span style={{ fontSize: '18px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
+            <span style={{ fontSize: '15px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%' }}>
               {stats.name}
             </span>
-            <span style={{ fontSize: '12px', color: '#a78bfa', marginTop: '2px' }}>
+            <span style={{ fontSize: '11px', color: '#a78bfa', marginTop: '1px' }}>
               @{stats.login}
             </span>
           </div>
 
-          {/* Right Panel: Grid Stats */}
+          {/* Right Panel: Grid Stats with explicit row divs to avoid Satori flex-wrap bugs */}
           <div
             style={{
               display: 'flex',
@@ -177,50 +177,54 @@ export async function GET(request: NextRequest) {
               justifyContent: 'center',
             }}
           >
-            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
+            {/* Row 1 */}
+            <div style={{ display: 'flex', width: '100%', marginBottom: '14px' }}>
               {/* Stat 1: Stars */}
-              <div style={{ display: 'flex', alignItems: 'center', width: '50%', marginBottom: '16px' }}>
-                <div style={{ display: 'flex', background: 'rgba(236, 72, 153, 0.1)', padding: '8px', borderRadius: '8px', marginRight: '12px' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="#ec4899" stroke="#ec4899" strokeWidth="2">
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+                <div style={{ display: 'flex', background: 'rgba(236, 72, 153, 0.1)', padding: '6px', borderRadius: '6px', marginRight: '10px' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#ec4899" stroke="#ec4899" strokeWidth="2">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                   </svg>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estrelas</span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.stars}</span>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estrelas</span>
+                  <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>{stats.stars}</span>
                 </div>
               </div>
 
               {/* Stat 2: Commits (if authenticated) or Repos (fallback) */}
-              <div style={{ display: 'flex', alignItems: 'center', width: '50%', marginBottom: '16px' }}>
-                <div style={{ display: 'flex', background: 'rgba(139, 92, 246, 0.1)', padding: '8px', borderRadius: '8px', marginRight: '12px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+                <div style={{ display: 'flex', background: 'rgba(139, 92, 246, 0.1)', padding: '6px', borderRadius: '6px', marginRight: '10px' }}>
                   {stats.hasToken ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2.5">
                       <circle cx="12" cy="12" r="3" />
                       <line x1="3" y1="12" x2="9" y2="12" />
                       <line x1="15" y1="12" x2="21" y2="12" />
                     </svg>
                   ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
                     </svg>
                   )}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {stats.hasToken ? 'Commits' : 'Repositórios'}
                   </span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>
+                  <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>
                     {stats.hasToken ? stats.commits : stats.repos}
                   </span>
                 </div>
               </div>
+            </div>
 
+            {/* Row 2 */}
+            <div style={{ display: 'flex', width: '100%' }}>
               {/* Stat 3: PRs (if authenticated) or Followers */}
               <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                <div style={{ display: 'flex', background: 'rgba(16, 185, 129, 0.1)', padding: '8px', borderRadius: '8px', marginRight: '12px' }}>
+                <div style={{ display: 'flex', background: 'rgba(16, 185, 129, 0.1)', padding: '6px', borderRadius: '6px', marginRight: '10px' }}>
                   {stats.hasToken ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="18" cy="18" r="3" />
                       <circle cx="6" cy="6" r="3" />
                       <circle cx="6" cy="18" r="3" />
@@ -228,7 +232,7 @@ export async function GET(request: NextRequest) {
                       <line x1="6" y1="9" x2="6" y2="15" />
                     </svg>
                   ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                       <circle cx="9" cy="7" r="4" />
                       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -237,10 +241,10 @@ export async function GET(request: NextRequest) {
                   )}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {stats.hasToken ? 'Pull Requests' : 'Seguidores'}
                   </span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>
+                  <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>
                     {stats.hasToken ? stats.prs : stats.followers}
                   </span>
                 </div>
@@ -248,26 +252,26 @@ export async function GET(request: NextRequest) {
 
               {/* Stat 4: Followers (if authenticated) or Status (fallback) */}
               <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                <div style={{ display: 'flex', background: 'rgba(245, 158, 11, 0.1)', padding: '8px', borderRadius: '8px', marginRight: '12px' }}>
+                <div style={{ display: 'flex', background: 'rgba(245, 158, 11, 0.1)', padding: '6px', borderRadius: '6px', marginRight: '10px' }}>
                   {stats.hasToken ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
                       <circle cx="9" cy="7" r="4" />
                       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
                       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
                     </svg>
                   ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                       <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
                   )}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontSize: '11px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {stats.hasToken ? 'Seguidores' : 'Status'}
                   </span>
-                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>
+                  <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>
                     {stats.hasToken ? stats.followers : 'Online'}
                   </span>
                 </div>
@@ -277,8 +281,8 @@ export async function GET(request: NextRequest) {
         </div>
       ),
       {
-        width: 600,
-        height: 200,
+        width: 495,
+        height: 195,
       }
     );
   } catch (error: any) {
