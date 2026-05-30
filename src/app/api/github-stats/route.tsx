@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     };
 
     if (token) {
-      // Use GitHub GraphQL API to fetch accurate contributions and counts
+      // 1. Fetch profile info and general stats via GraphQL API
       try {
         const query = `
           query userInfo($login: String!) {
@@ -41,10 +41,6 @@ export async function GET(request: NextRequest) {
                     totalCount
                   }
                 }
-              }
-              contributionsCollection {
-                totalCommitContributions
-                restrictedContributionsCount
               }
               pullRequests {
                 totalCount
@@ -76,16 +72,32 @@ export async function GET(request: NextRequest) {
           stats.stars = repos.reduce((acc: number, repo: any) => acc + (repo.stargazers?.totalCount || 0), 0);
           stats.repos = repos.length;
 
-          // Calculate commits (public + private if permitted by token scopes)
-          const commitsObj = user.contributionsCollection;
-          stats.commits = (commitsObj?.totalCommitContributions || 0) + (commitsObj?.restrictedContributionsCount || 0);
-
           // Calculate PRs
           stats.prs = user.pullRequests?.totalCount || 0;
           stats.hasToken = true;
         }
       } catch (err) {
         console.error("Error fetching GitHub GraphQL API:", err);
+      }
+
+      // 2. Fetch total lifetime commits (public + private) via Search API
+      if (stats.hasToken) {
+        try {
+          const searchRes = await fetch(`https://api.github.com/search/commits?q=author:${login}`, {
+            headers: {
+              Authorization: `bearer ${token}`,
+              Accept: "application/vnd.github.cloak-preview",
+              "User-Agent": "nextjs-readme-stats",
+            }
+          });
+
+          if (searchRes.ok) {
+            const searchJson = await searchRes.json();
+            stats.commits = searchJson.total_count || 0;
+          }
+        } catch (err) {
+          console.error("Error fetching commits count via Search API:", err);
+        }
       }
     }
 
@@ -123,8 +135,8 @@ export async function GET(request: NextRequest) {
       (
         <div
           style={{
-            height: '100%',
-            width: '100%',
+            height: '195px',
+            width: '495px',
             display: 'flex',
             alignItems: 'center',
             background: 'radial-gradient(circle at center, #130f26 0%, #07050f 100%)',
