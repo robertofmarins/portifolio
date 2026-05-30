@@ -143,7 +143,7 @@ export async function GET(request: NextRequest) {
       ];
     }
 
-    // Generate dynamic card for Top Languages
+    // Generate top languages card as dynamic PNG image response fitting standard 495x195 dimensions
     return new ImageResponse(
       (
         <div
@@ -151,106 +151,93 @@ export async function GET(request: NextRequest) {
             height: '195px',
             width: '495px',
             display: 'flex',
-            padding: '2px',
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #3b82f6 100%)',
-            borderRadius: '14px',
+            flexDirection: 'column',
+            background: '#0b0a15',
+            fontFamily: 'sans-serif',
+            color: '#f3f4f6',
+            padding: '20px 24px',
+            borderRadius: '8px',
+            border: '1.5px solid #5a2ea6',
             boxSizing: 'border-box',
+            justifyContent: 'space-between',
           }}
         >
+          {/* Header/Title */}
+          <div style={{ display: 'flex', fontSize: '10px', fontWeight: 'bold', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            Linguagens Mais Usadas
+          </div>
+
+          {/* Segmented Progress Bar representing language distribution */}
           <div
             style={{
-              height: '100%',
-              width: '100%',
               display: 'flex',
-              flexDirection: 'column',
-              background: '#090514',
-              fontFamily: 'sans-serif',
-              color: '#f3f4f6',
-              padding: '18px 20px',
-              borderRadius: '12px',
-              boxSizing: 'border-box',
-              justifyContent: 'space-between',
+              width: '100%',
+              height: '8px',
+              borderRadius: '4px',
+              overflow: 'hidden',
+              backgroundColor: '#1b1330',
+              marginTop: '6px',
+              marginBottom: '12px',
             }}
           >
-            {/* Header/Title */}
-            <div style={{ display: 'flex', fontSize: '14px', fontWeight: 'bold', color: '#a78bfa', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Linguagens Mais Usadas
-            </div>
+            {languages.map((lang, index) => (
+              <div
+                key={index}
+                style={{
+                  backgroundColor: lang.color,
+                  width: `${lang.percentage}%`,
+                  height: '100%',
+                }}
+              />
+            ))}
+          </div>
 
-            {/* Segmented Progress Bar representing language distribution */}
-            <div
-              style={{
-                display: 'flex',
-                width: '100%',
-                height: '8px',
-                borderRadius: '4px',
-                overflow: 'hidden',
-                backgroundColor: '#1b1330',
-                marginTop: '6px',
-                marginBottom: '12px',
-              }}
-            >
-              {languages.map((lang, index) => (
-                <div
-                  key={index}
-                  style={{
-                    backgroundColor: lang.color,
-                    width: `${lang.percentage}%`,
-                    height: '100%',
-                  }}
-                />
+          {/* 2-Column List of Languages with Color Indicators and Percentages */}
+          <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap', flexGrow: 1 }}>
+            {/* Column 1: Items 0, 2, 4 */}
+            <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+              {languages.filter((_, idx) => idx % 2 === 0).map((lang, idx) => (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                  <div
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '4px',
+                      backgroundColor: lang.color,
+                      marginRight: '8px',
+                    }}
+                  />
+                  <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#ffffff', marginRight: '6px' }}>
+                    {lang.name}
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#9ca3af' }}>
+                    {lang.percentage}%
+                  </span>
+                </div>
               ))}
             </div>
 
-            {/* 2-Column List of Languages with Color Indicators and Percentages */}
-            <div style={{ display: 'flex', width: '100%', flexWrap: 'wrap', flexGrow: 1 }}>
-              {/* Column 1: Items 0, 2, 4 */}
-              <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
-                {languages.filter((_, idx) => idx % 2 === 0).map((lang, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                    <div
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '4px',
-                        backgroundColor: lang.color,
-                        marginRight: '8px',
-                        boxShadow: `0 0 6px ${lang.color}`,
-                      }}
-                    />
-                    <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#ffffff', marginRight: '6px' }}>
-                      {lang.name}
-                    </span>
-                    <span style={{ fontSize: '12px', color: '#9ca3af' }}>
-                      {lang.percentage}%
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Column 2: Items 1, 3, 5 */}
-              <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
-                {languages.filter((_, idx) => idx % 2 !== 0).map((lang, idx) => (
-                  <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
-                    <div
-                      style={{
-                        width: '8px',
-                        height: '8px',
-                        borderRadius: '4px',
-                        backgroundColor: lang.color,
-                        marginRight: '8px',
-                        boxShadow: `0 0 6px ${lang.color}`,
-                      }}
-                    />
-                    <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#ffffff', marginRight: '6px' }}>
-                      {lang.name}
-                    </span>
-                    <span style={{ fontSize: '12px', color: '#9ca3af' }}>
-                      {lang.percentage}%
-                    </span>
-                  </div>
-                ))}
-              </div>
+            {/* Column 2: Items 1, 3, 5 */}
+            <div style={{ display: 'flex', flexDirection: 'column', width: '50%' }}>
+              {languages.filter((_, idx) => idx % 2 !== 0).map((lang, idx) => (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+                  <div
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '4px',
+                      backgroundColor: lang.color,
+                      marginRight: '8px',
+                    }}
+                  />
+                  <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#ffffff', marginRight: '6px' }}>
+                    {lang.name}
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#9ca3af' }}>
+                    {lang.percentage}%
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>

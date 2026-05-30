@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
       login: login,
       avatarUrl: `https://github.com/${login}.png`,
       stars: 0,
-      commits: 0,
+      contributions: 0,
       prs: 0,
       followers: 0,
       repos: 0,
@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
 
     if (token) {
       try {
-        // Query user info and contributions collection for each year since creation (2023-2026)
         const query = `
           query userInfo($login: String!) {
             user(login: $login) {
@@ -46,20 +45,24 @@ export async function GET(request: NextRequest) {
                 totalCount
               }
               y2023: contributionsCollection(from: "2023-01-01T00:00:00Z", to: "2023-12-31T23:59:59Z") {
-                totalCommitContributions
-                restrictedContributionsCount
+                contributionCalendar {
+                  totalContributions
+                }
               }
               y2024: contributionsCollection(from: "2024-01-01T00:00:00Z", to: "2024-12-31T23:59:59Z") {
-                totalCommitContributions
-                restrictedContributionsCount
+                contributionCalendar {
+                  totalContributions
+                }
               }
               y2025: contributionsCollection(from: "2025-01-01T00:00:00Z", to: "2025-12-31T23:59:59Z") {
-                totalCommitContributions
-                restrictedContributionsCount
+                contributionCalendar {
+                  totalContributions
+                }
               }
               y2026: contributionsCollection(from: "2026-01-01T00:00:00Z", to: "2026-12-31T23:59:59Z") {
-                totalCommitContributions
-                restrictedContributionsCount
+                contributionCalendar {
+                  totalContributions
+                }
               }
             }
           }
@@ -91,14 +94,14 @@ export async function GET(request: NextRequest) {
           // Calculate PRs
           stats.prs = user.pullRequests?.totalCount || 0;
 
-          // Calculate total lifetime commits (public + private restricted contributions) from 2023 to 2026
-          const commitSum = 
-            (user.y2023?.totalCommitContributions || 0) + (user.y2023?.restrictedContributionsCount || 0) +
-            (user.y2024?.totalCommitContributions || 0) + (user.y2024?.restrictedContributionsCount || 0) +
-            (user.y2025?.totalCommitContributions || 0) + (user.y2025?.restrictedContributionsCount || 0) +
-            (user.y2026?.totalCommitContributions || 0) + (user.y2026?.restrictedContributionsCount || 0);
+          // Calculate total contributions (commits + issues + PRs + reviews) across all active years
+          const totalContributions = 
+            (user.y2023?.contributionCalendar?.totalContributions || 0) +
+            (user.y2024?.contributionCalendar?.totalContributions || 0) +
+            (user.y2025?.contributionCalendar?.totalContributions || 0) +
+            (user.y2026?.contributionCalendar?.totalContributions || 0);
 
-          stats.commits = commitSum;
+          stats.contributions = totalContributions;
           stats.hasToken = true;
         }
       } catch (err) {
@@ -124,7 +127,7 @@ export async function GET(request: NextRequest) {
           stats.avatarUrl = user.avatar_url || stats.avatarUrl;
           stats.followers = user.followers || 0;
           stats.repos = user.public_repos || 0;
-          stats.commits = 258; // Hard fallback
+          stats.contributions = 2107; // Hard fallback representing all contributions
         }
 
         if (reposRes.ok) {
@@ -144,132 +147,119 @@ export async function GET(request: NextRequest) {
             height: '195px',
             width: '495px',
             display: 'flex',
-            padding: '2px',
-            background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #3b82f6 100%)',
-            borderRadius: '14px',
+            alignItems: 'center',
+            background: '#0b0a15',
+            fontFamily: 'sans-serif',
+            color: '#f3f4f6',
+            padding: '20px 24px',
+            borderRadius: '8px',
+            border: '1.5px solid #5a2ea6',
             boxSizing: 'border-box',
           }}
         >
+          {/* Left Panel: Profile Avatar & Nickname */}
           <div
             style={{
-              height: '100%',
-              width: '100%',
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
-              background: '#090514',
-              fontFamily: 'sans-serif',
-              color: '#f3f4f6',
-              padding: '18px 20px',
-              borderRadius: '12px',
-              boxSizing: 'border-box',
+              width: '135px',
+              borderRight: '1px solid rgba(90, 46, 166, 0.25)',
+              paddingRight: '16px',
+              marginRight: '16px',
             }}
           >
-            {/* Left Panel: Profile Avatar & Nickname */}
-            <div
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={stats.avatarUrl}
+              alt="Avatar"
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                width: '135px',
-                borderRight: '1px solid rgba(139, 92, 246, 0.25)',
-                paddingRight: '14px',
-                marginRight: '16px',
+                width: '72px',
+                height: '72px',
+                borderRadius: '36px',
+                border: '1.5px solid #a78bfa',
+                marginBottom: '10px',
               }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={stats.avatarUrl}
-                alt="Avatar"
-                style={{
-                  width: '68px',
-                  height: '68px',
-                  borderRadius: '34px',
-                  border: '2px solid #ec4899',
-                  boxShadow: '0 0 10px rgba(236, 72, 153, 0.4)',
-                  marginBottom: '8px',
-                }}
-              />
-              <span style={{ fontSize: '14px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%', color: '#ffffff' }}>
-                {stats.name}
-              </span>
-              <span style={{ fontSize: '11px', color: '#a78bfa', marginTop: '1px' }}>
-                @{stats.login}
-              </span>
-            </div>
+            />
+            <span style={{ fontSize: '15px', fontWeight: 'bold', textAlign: 'center', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', width: '100%', color: '#ffffff' }}>
+              {stats.name}
+            </span>
+            <span style={{ fontSize: '12px', color: '#a78bfa', marginTop: '1px' }}>
+              @{stats.login}
+            </span>
+          </div>
 
-            {/* Right Panel: Grid Stats with explicit row divs */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                flexGrow: 1,
-                justifyContent: 'center',
-              }}
-            >
-              {/* Row 1 */}
-              <div style={{ display: 'flex', width: '100%', marginBottom: '14px' }}>
-                {/* Stat 1: Stars */}
-                <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                  <div style={{ display: 'flex', background: 'rgba(236, 72, 153, 0.12)', padding: '6px', borderRadius: '8px', marginRight: '10px', border: '1px solid rgba(236, 72, 153, 0.2)' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#ec4899" stroke="#ec4899" strokeWidth="1.5">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '9px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 'bold' }}>Estrelas</span>
-                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>{stats.stars}</span>
-                  </div>
+          {/* Right Panel: Grid Stats */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flexGrow: 1,
+              justifyContent: 'center',
+            }}
+          >
+            {/* Row 1 */}
+            <div style={{ display: 'flex', width: '100%', marginBottom: '16px' }}>
+              {/* Stat 1: Stars */}
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+                <div style={{ display: 'flex', marginRight: '10px' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#a78bfa" stroke="#a78bfa" strokeWidth="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                  </svg>
                 </div>
-
-                {/* Stat 2: Commits */}
-                <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                  <div style={{ display: 'flex', background: 'rgba(139, 92, 246, 0.12)', padding: '6px', borderRadius: '8px', marginRight: '10px', border: '1px solid rgba(139, 92, 246, 0.2)' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" strokeWidth="2.5">
-                      <circle cx="12" cy="12" r="3" />
-                      <line x1="3" y1="12" x2="9" y2="12" />
-                      <line x1="15" y1="12" x2="21" y2="12" />
-                    </svg>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '9px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 'bold' }}>Commits</span>
-                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>{stats.commits}</span>
-                  </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Estrelas</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.stars}</span>
                 </div>
               </div>
 
-              {/* Row 2 */}
-              <div style={{ display: 'flex', width: '100%' }}>
-                {/* Stat 3: PRs */}
-                <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                  <div style={{ display: 'flex', background: 'rgba(16, 185, 129, 0.12)', padding: '6px', borderRadius: '8px', marginRight: '10px', border: '1px solid rgba(16, 185, 129, 0.2)' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <circle cx="18" cy="18" r="3" />
-                      <circle cx="6" cy="6" r="3" />
-                      <circle cx="6" cy="18" r="3" />
-                      <path d="M18 15V9a4 4 0 0 0-4-4H9" />
-                      <line x1="6" y1="9" x2="6" y2="15" />
-                    </svg>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '9px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 'bold' }}>Pull Requests</span>
-                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>{stats.prs}</span>
-                  </div>
+              {/* Stat 2: Contributions */}
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+                <div style={{ display: 'flex', marginRight: '10px' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                  </svg>
                 </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Contribuições</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.contributions}</span>
+                </div>
+              </div>
+            </div>
 
-                {/* Stat 4: Followers */}
-                <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
-                  <div style={{ display: 'flex', background: 'rgba(59, 130, 246, 0.12)', padding: '6px', borderRadius: '8px', marginRight: '10px', border: '1px solid rgba(59, 130, 246, 0.2)' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                    </svg>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontSize: '9px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 'bold' }}>Seguidores</span>
-                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ffffff' }}>{stats.followers}</span>
-                  </div>
+            {/* Row 2 */}
+            <div style={{ display: 'flex', width: '100%' }}>
+              {/* Stat 3: PRs */}
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+                <div style={{ display: 'flex', marginRight: '10px' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="18" cy="18" r="3" />
+                    <circle cx="6" cy="6" r="3" />
+                    <circle cx="6" cy="18" r="3" />
+                    <path d="M18 15V9a4 4 0 0 0-4-4H9" />
+                    <line x1="6" y1="9" x2="6" y2="15" />
+                  </svg>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Pull Requests</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.prs}</span>
+                </div>
+              </div>
+
+              {/* Stat 4: Followers */}
+              <div style={{ display: 'flex', alignItems: 'center', width: '50%' }}>
+                <div style={{ display: 'flex', marginRight: '10px' }}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                  </svg>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Seguidores</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#ffffff' }}>{stats.followers}</span>
                 </div>
               </div>
             </div>
